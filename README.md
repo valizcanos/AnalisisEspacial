@@ -2,13 +2,12 @@
 
 <p style="font-size:16px">El análisis y modelamiento espacial es el estudio cuantititativo de eventos o fenómenos que pueden ser representados o análizados espacialmente, 
 es decir, permite la interpretación de datos que cuentan con una latitud y una longitud. Los métodos que integran al análisis espacial comprenden técnicas  de estadística (descriptivas e inferenciales),
-aprendizaje automático y de base de datos.
+aprendizaje automático y base de datos.
  </p><br>
 
-<p style="font-size:16px">El reconocer, identificar y comprender los componentes espaciales y espaciotemporales explícitos de un espacio geográfico, 
-como elementos base para el modelado y análisis de datos, con un objetivo central, derivar resultados analíticos con base en datos geoespaciales.
-Así, el análisis de datos intenta comprender tanto los efectos de las características propias de los datos como los de la interacción entre ellos; 
-abordando dos aspectos fundamentales: planteamientos centrados en los datos y orientados a resultados analíticos; 
+<p style="font-size:16px">El reconocer e identificar  los componentes espaciales y espaciotemporales explícitos de un espacio geográfico, 
+como elementos base para el modelado y análisis de datos, permite comprender los efectos de las características propias de los datos como los de la interacción entre ellos; 
+abordando dos aspectos fundamentales como: el planteamientos centrados en los datos y orientados a resultados analíticos; 
 y construcción de modelos enfocados en la comprensión y seguimiento de procesos geoespaciales. </p><br>
 
 
