@@ -2,7 +2,7 @@
 
 library(sf)
 library(spdep)
-library(tmap)
+#library(tmap)
 library(ggplot2)
 
 s <- readRDS(url("https://github.com/mgimond/Data/raw/gh-pages/Exercises/nhme.rds"))
@@ -14,8 +14,7 @@ hist(s$Income, main=NULL)
 boxplot(s$Income, horizontal = TRUE)
 
 
-tm_shape(s) + tm_fill(col="Income", style="quantile", n=8, palette="Greens") +
-  tm_legend(outside=TRUE)
+tm_shape(s) + tm_fill(col="Income", style="quantile", n=8, palette="Greens") + tm_legend(outside=TRUE)
 
 # Mapa de ingresos con ggplot2
 ggplot(s) +
