@@ -2,7 +2,7 @@
 
 library(sf)
 library(spdep)
-#library(tmap)
+library(mapview)
 library(ggplot2)
 
 s <- readRDS(url("https://github.com/mgimond/Data/raw/gh-pages/Exercises/nhme.rds"))
@@ -10,17 +10,19 @@ s <- readRDS(url("https://github.com/mgimond/Data/raw/gh-pages/Exercises/nhme.rd
 names(s)
 s$Income
 
+
 hist(s$Income, main=NULL)
 boxplot(s$Income, horizontal = TRUE)
 
+# Mapa de ingresos con mapview
+mapview(s, zcol = "Income")
 
-tm_shape(s) + tm_fill(col="Income", style="quantile", n=8, palette="Greens") + tm_legend(outside=TRUE)
 
 # Mapa de ingresos con ggplot2
+
 ggplot(s) +
   geom_sf(aes(fill = Income), color = NA) +  # 'color = NA' elimina bordes
-  scale_fill_gradientn(colors = hcl.colors(8, "Greens"), 
-                       breaks = quantile(s$Income, probs = seq(0, 1, length.out = 8))) +
+  scale_fill_gradientn(colors = hcl.colors(8, "Greens"), breaks = quantile(s$Income, probs = seq(0, 1, length.out = 8))) +
   theme_minimal() +
   labs(title = "Distribución de Ingresos", fill = "Income")
 
@@ -44,9 +46,11 @@ moran.test(s$Income,lw, alternative="greater")
 # Crear un dataframe con los resultados
 
 moran_result <- moran.test(s$Income, lw, alternative = "greater")
+?moran.test()
 
 results_df <- data.frame(
   Estadístico = c("Moran I", "Valor p"),
   Valor = c(moran_result$estimate[1], moran_result$p.value)
 )
 
+results_df

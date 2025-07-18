@@ -1,40 +1,14 @@
-library(spData)
 library(sf)
 library(mapview)
-library(terra)
 library(spdep)
-library(spData)
 
+#https://www.paulamoraga.com/book-spatial/spatial-autocorrelation.html
 
 ##########################
 
-if (requireNamespace("spdep", quietly = TRUE)) {
-  data(boston)
-  hr0 <- lm(log(MEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2) + I(RM^2) +
-              AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + log(LSTAT), data = boston.c)
-  summary(hr0)
-  logLik(hr0)
-  gp0 <- lm(log(CMEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2) + I(RM^2) +
-              AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + log(LSTAT), data = boston.c)
-  summary(gp0)
-  logLik(gp0)
-  spdep::lm.morantest(hr0, spdep::nb2listw(boston.soi))
-}
-if (requireNamespace("sf", quietly = TRUE)) {
-  boston.tr <- sf::st_read(system.file("shapes/boston_tracts.gpkg",
-                                       package="spData")[1])
-  if (requireNamespace("spdep", quietly = TRUE)) {
-    boston_nb <- spdep::poly2nb(boston.tr)
-  }
-}
+map <- st_read('D:/DOCS/REPOSITORIOS/AnalisisEspacial/Clase 4_AutocorrelacionE/boston_tracts.shp')
 
-st_write(boston.tr, "C:/Users/victor.lizcano/Downloads/AME/boston_tracts.shp")
-
-map <- st_read(system.file("C:/Users/victor.lizcano/Downloads/AME/boston_tracts.shp",
-                           package = "spData"), quiet = TRUE)
-
-
-map =read_sf('C:/Users/victor.lizcano/Downloads/AME/', layer='boston_tracts')
+#map =read_sf('D:/DOCS/REPOSITORIOS/AnalisisEspacial/Clase 4_AutocorrelacionE/', layer='boston_tracts')
 
 map$vble <- map$MEDV
 mapview(map, zcol = "vble")
@@ -59,6 +33,17 @@ gmoran[["p.value"]] # p-value
 
 moran.plot(map$vble, nbw)
 
+# Lagged value (Li) = \sum_{j=1}^{n} w_{i,j} * x_{j} 
+#x_{j} = Valor de la variable en la unidad vecina j
+#w_{i,j} = Peso espacial entre i y j (normalizado o binario)
+#Las líneas que forman los cuadrantes denotan los promedios de x_j y los lagged
+
+moran.plot(x = map$vble, 
+           listw = nbw, 
+           labels = map$TOWN, 
+           xlab = 'Ingresos', 
+           ylab = 'Rezagos espaciales de la media de ingresos')
+
 ##########################
 #Local Moran
 lmoran <- localmoran(map$vble, nbw, alternative = "greater")
@@ -69,6 +54,7 @@ map$lmZ <- lmoran[, "Z.Ii"] # z-scores
 # p-values corresponding to alternative greater
 map$lmp <- lmoran[, "Pr(z > E(Ii))"]
 
+mapview(map, zcol = "TOWN")
 mapview(map, zcol = "vble")
 mapview(map, zcol = "lmI")
 mapview(map, zcol = "lmZ")
